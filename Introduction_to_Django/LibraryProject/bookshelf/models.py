@@ -1,3 +1,4 @@
+# This project involves creating a book with publication year 200
 from django.db import models
 
 class Book(models.Model):
