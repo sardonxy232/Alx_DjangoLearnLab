@@ -87,3 +87,22 @@ class UserProfile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+
+
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=13)
+    published_date = models.DateField()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        permissions = [
+            ("can_add_book", "Can add a new book"),
+            ("can_change_book", "Can change book details"),
+            ("can_delete_book", "Can delete a book"),
+        ]
