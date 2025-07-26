@@ -10,7 +10,7 @@
 
 # Edit relationship_app/urls.py to include URL patterns that route to the newly created views. Make sure to link both the function-based and class-based views.
 
-from django.shortcuts import render,
+from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Library
 from django.views.generic.detail import DetailView
@@ -56,13 +56,62 @@ def logout_view(request):
     return render(request, "relationship_app/logout.html")
 
 # Register View
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # log the user in after registration
+            return redirect('home')  # replace 'home' with your desired landing page
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponse
+from .models import UserProfile
+
+def is_admin(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
+
+@login_required
+@user_passes_test(is_admin)
+def admin_view(request):
+    return HttpResponse("Welcome Admin. This is a protected view.")
+
+
+from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render
+from .models import UserProfile
+
+def is_admin(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
+
+def is_librarian(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
+
+def is_member(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
+
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
+
 def register_view(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("home")  # Change to your actual homepage view name
+            return redirect('home')  # You can replace this with the appropriate view name
     else:
         form = UserCreationForm()
-    return render(request, "relationship_app/register.html", {"form": form})
+    return render(request, 'registration/register.html', {'form': form})
