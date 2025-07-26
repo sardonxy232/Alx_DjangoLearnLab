@@ -17,9 +17,9 @@ from django.views.generic.detail import DetailView
 
 # Function-based view to list all books and authors
 def list_books(request):
-   books = Book.objects.select_related('author').all()
-   return render(request, "relationship_app/list_books.html", {"books": books})
-
+    books = Book.objects.all()
+    output = "\n".join([f"{book.title} by {book.author.name}" for book in books])
+    return HttpResponse(output, content_type="text/plain")
 # Class-based view to display details of a specific library
 class LibraryDetailView(DetailView):
     model = Library
