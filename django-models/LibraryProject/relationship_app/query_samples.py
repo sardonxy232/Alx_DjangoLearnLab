@@ -3,6 +3,8 @@
 # List all books in a library.
 # Retrieve the librarian for a library.
 
+# LibraryProject/relationship_app/query_samples.py doesn't contain: ["objects.filter(author=author)"]
+
 
 import os
 import django
@@ -17,7 +19,7 @@ from relationship_app.models import Author, Book, Library, Librarian
 def books_by_author(author_name):
     try:
         author = Author.objects.get(name=author_name)
-        books = author.books.all()
+        books = Book.objects.filter(author=author) 
         print(f"Books by {author.name}:")
         for book in books:
             print(f"- {book.title}")
@@ -56,3 +58,5 @@ if __name__ == "__main__":
     books_in_library("Central Library")
     print()
     librarian_for_library("Central Library")
+
+
