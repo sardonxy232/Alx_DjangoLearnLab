@@ -192,7 +192,7 @@ SESSION_COOKIE_SECURE = True
 # Be sure to set this to False in production to prevent detailed error pages from showing
 DEBUG = False  # Set to True only in development!
 
-# Enforce HTTPS
+# Enforce HTTPS 
 SECURE_SSL_REDIRECT = True  # Redirect all HTTP to HTTPS
 
 # HTTP Strict Transport Security
@@ -208,3 +208,5 @@ CSRF_COOKIE_SECURE = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
