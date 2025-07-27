@@ -18,3 +18,9 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title', 'author', 'isbn', 'published_date']
+
+from django import forms
+
+class BookSearchForm(forms.Form):
+    title = forms.CharField(max_length=100)
+
