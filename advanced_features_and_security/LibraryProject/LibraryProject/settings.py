@@ -70,7 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'LibraryProject.wsgi.application'
-
+# the updated content
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -137,3 +137,57 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
+DEBUG = False  # ✅ Disable debug in production
+
+# ✅ Browser security headers
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# ✅ Cookies over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# ✅ CSP settings (if using django-csp)
+INSTALLED_APPS += ['csp']
+
+MIDDLEWARE += [
+    'csp.middleware.CSPMiddleware',
+]
+
+# Configure CSP (adjust domains as necessary)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'",)
+CSP_IMG_SRC = ("'self'", 'data:')
+
+# SECURITY SETTINGS
+# Prevent browser from MIME-sniffing the response
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Prevent clickjacking
+X_FRAME_OPTIONS = 'DENY'
+
+# Enable the browser XSS filtering
+SECURE_BROWSER_XSS_FILTER = True
+
+
+# SECURITY SETTINGS
+
+# Prevents the browser from rendering the site in a frame (clickjacking protection)
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevents the browser from trying to guess the content type (helps against XSS attacks)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enables the browser’s XSS filter
+SECURE_BROWSER_XSS_FILTER = True
+
+# Ensures cookies are only sent over HTTPS (set to True in production)
+
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Be sure to set this to False in production to prevent detailed error pages from showing
+DEBUG = False  # Set to True only in development!
