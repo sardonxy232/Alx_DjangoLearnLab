@@ -6,7 +6,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path("books/", BookListView.as_view(), name="book-list"),       # GET (list)
-    path("books/create/", BookCreateView.as_view(), name="book-create"),  # POST
-    path("books/<int:pk>/", BookDetailView.as_view(), name="book-detail"), # GET, PUT, PATCH, DELETE
+    path("books/", BookListView.as_view(), name="book-list"),          # GET all books
+    path("books/create/", BookCreateView.as_view(), name="book-create"), # POST new book
+    path("books/<int:pk>/", BookDetailView.as_view(), name="book-detail"), # GET, PUT, PATCH, DELETE single book
 ]
